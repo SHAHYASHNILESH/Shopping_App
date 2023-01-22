@@ -21,7 +21,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   final _signupFormKey = GlobalKey<FormState>();
   final _signinFormKey = GlobalKey<FormState>();
-  final AuthService authService=AuthService();
+  final AuthService authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -34,12 +34,22 @@ class _AuthScreenState extends State<AuthScreen> {
     _nameController.dispose();
     _passwordController.dispose();
   }
+
   void signUpUser() {
     authService.signupUser(
       context: context,
       email: _emailController.text,
       password: _passwordController.text,
       name: _nameController.text,
+    );
+  }
+
+  void signInUser(){
+    authService.signinUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+
     );
   }
 
@@ -115,7 +125,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             CustomButton(
                               text: 'Sign Up',
-                              onTap: () {},
+                              onTap: () {
+                                if (_signupFormKey.currentState!.validate()) {
+                                  signUpUser();
+                                }
+                              },
                             ),
                           ],
                         )),
@@ -165,7 +179,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             CustomButton(
                               text: 'Sign In',
-                              onTap: () {},
+                              onTap: () {
+                                if (_signinFormKey.currentState!.validate()) {
+                                  signInUser();
+                                }
+                              },
                             ),
                           ],
                         )),
