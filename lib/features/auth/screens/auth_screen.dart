@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopping_app/common/widgets/custom_button.dart';
 import 'package:shopping_app/common/widgets/custom_textfield.dart';
 import 'package:shopping_app/constants/global_variables.dart';
+import 'package:shopping_app/features/auth/services/auth_service.dart';
 
 enum Auth {
   signin,
@@ -20,6 +21,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   final _signupFormKey = GlobalKey<FormState>();
   final _signinFormKey = GlobalKey<FormState>();
+  final AuthService authService=AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -31,6 +33,14 @@ class _AuthScreenState extends State<AuthScreen> {
     _emailController.dispose();
     _nameController.dispose();
     _passwordController.dispose();
+  }
+  void signUpUser() {
+    authService.signupUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+      name: _nameController.text,
+    );
   }
 
   @override
