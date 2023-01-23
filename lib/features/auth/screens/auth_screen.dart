@@ -44,12 +44,11 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  void signInUser(){
+  void signInUser() {
     authService.signinUser(
       context: context,
       email: _emailController.text,
       password: _passwordController.text,
-
     );
   }
 
@@ -64,7 +63,7 @@ class _AuthScreenState extends State<AuthScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome,',
+                  'Welcome to our App',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
