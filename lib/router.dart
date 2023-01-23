@@ -23,8 +23,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     default:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) =>
-        const Scaffold(
+        builder: (_) => const Scaffold(
           body: Center(
             child: Text('Screen does not exist'),
           ),
