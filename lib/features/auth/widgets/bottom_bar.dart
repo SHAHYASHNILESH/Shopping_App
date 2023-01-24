@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/constants/global_variables.dart';
 import 'package:shopping_app/features/account/screens/account_screen.dart';
+import 'package:shopping_app/features/admin/screens/admin_screen.dart';
 import 'package:shopping_app/features/home/screens/home_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -23,6 +24,7 @@ class _BottomBarState extends State<BottomBar> {
     const Center(
       child: Text('Cart Page'),
     ),
+    const AdminScreen(),
   ];
 
   void updatePage(int page) {
@@ -97,6 +99,22 @@ class _BottomBarState extends State<BottomBar> {
                   badgeColor: Colors.white,
                   child: const Icon(Icons.shopping_cart_outlined),
                 ),
+              ),
+              label: '',
+            ),
+
+            BottomNavigationBarItem(
+              icon: Container(
+                width: BottomBarWidth,
+                decoration: BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          color: _page == 3
+                              ? GlobalVariables.selectedNavBarColor
+                              : GlobalVariables.backgroundColor,
+                          width: BottomBarBorderWidth)),
+                ),
+                child: const Icon(Icons.admin_panel_settings),
               ),
               label: '',
             ),
