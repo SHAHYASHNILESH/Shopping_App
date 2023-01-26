@@ -7,6 +7,7 @@ import 'package:shopping_app/common/widgets/custom_button.dart';
 import 'package:shopping_app/common/widgets/custom_textfield.dart';
 import 'package:shopping_app/constants/global_variables.dart';
 import 'package:shopping_app/constants/utils.dart';
+import 'package:shopping_app/features/admin/services/admin_services.dart';
 
 class AddProductScreen extends StatefulWidget {
   static const String routeName = '/add-product';
@@ -23,9 +24,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController productPriceController = TextEditingController();
   final TextEditingController productQuantityController =
       TextEditingController();
+  final AdminServices adminServices=AdminServices();
+
 
   String category = 'Mobiles';
   List<File> images = [];
+  final _addProductFormKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -44,14 +48,29 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Fashion',
   ];
 
-  File? _image;
+  void sellProduct(){
+    if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
+      adminServices.sellProduct(
+        context: context,
+        name: productNameController.text,
+        description: productDescriptionController.text,
+        price: double.parse(productPriceController.text),
+        quantity: double.parse(productQuantityController.text),
+        category: category,
+        image: image,
+      );
+    }
+
+  }
+
+  File? image;
   PickedFile? _pickedFile;
   final _picker = ImagePicker();
   Future<void> _pickImage() async {
     _pickedFile = await _picker.getImage(source: ImageSource.gallery);
     if (_pickedFile != null) {
       setState(() {
-        _image = File(_pickedFile!.path);
+        image= File(_pickedFile!.path);
       });
     }
   }
@@ -79,6 +98,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             )),
         body: SingleChildScrollView(
             child: Form(
+                key: _addProductFormKey,
                 child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
@@ -170,7 +190,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
               CustomButton(
                 text: 'Sell',
-                onTap: () {},
+                onTap:sellProduct,
               )
             ],
           ),
