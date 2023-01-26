@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shopping_app/common/widgets/custom_button.dart';
 import 'package:shopping_app/common/widgets/custom_textfield.dart';
 import 'package:shopping_app/constants/global_variables.dart';
@@ -43,11 +44,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
     'Fashion',
   ];
 
-  void selectImages() async {
-    var res = await pickImages();
-    setState(() {
-      images = res;
-    });
+  File? _image;
+  PickedFile? _pickedFile;
+  final _picker = ImagePicker();
+  Future<void> _pickImage() async {
+    _pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    if (_pickedFile != null) {
+      setState(() {
+        _image = File(_pickedFile!.path);
+      });
+    }
   }
 
   @override
@@ -78,24 +84,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              images.isNotEmpty
-                  ? CarouselSlider(
-                      items: images.map((i) {
-                        return Builder(
-                          builder: (BuildContext context) => Image.file(
-                            i,
-                            fit: BoxFit.cover,
-                            height: 200,
-                          ),
-                        );
-                      }).toList(),
-                      options: CarouselOptions(
-                        viewportFraction: 1,
-                        height: 190,
-                      ),
-                    )
+              _pickedFile != null
+                  ? const Text('File is Selected')
                   : GestureDetector(
-                      onTap: selectImages,
+                      onTap: () => _pickImage(),
                       child: DottedBorder(
                         borderType: BorderType.RRect,
                         radius: const Radius.circular(10),
